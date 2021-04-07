@@ -1,4 +1,4 @@
-import { JWTService } from '../JWT/JWT.service';
+import { JWTService } from '../auth/JWT/JWT.service';
 
 /*====================*/
 

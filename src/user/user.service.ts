@@ -1,14 +1,7 @@
-import {
-  BadRequestException,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schemas/UserSchema';
 import { Model } from 'mongoose';
-import RegisterDTO from './DTOS/RegisterDTO';
-import LoginDTO from './DTOS/LoginDTO';
-import * as bcrypt from 'bcrypt';
 import JSendSerializer from 'r-jsend';
 
 /*====================*/
@@ -31,29 +24,5 @@ export class UserService {
 
   public async getUserById(id: string) {
     return this.user.findById(id);
-  }
-
-  public async createUser(data: RegisterDTO): Promise<UserDocument> {
-    const user = await this.user.create(data);
-
-    user.password = undefined;
-
-    return user;
-  }
-
-  public async logIn(data: LoginDTO) {
-    const user = await this.user
-      .findOne({ email: data?.email || '' })
-      .select('+password');
-
-    if (!user || !(await bcrypt.compare(data.password, user.password))) {
-      throw new UnauthorizedException(
-        this.jsendSerializer.failResponse('Incorrect email or password!').get(),
-      );
-    }
-
-    user.password = undefined;
-
-    return user;
   }
 }

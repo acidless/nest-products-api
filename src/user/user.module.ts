@@ -3,16 +3,20 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './schemas/UserSchema';
-import JSendSerializer from 'r-jsend';
-import { JWTService } from '../JWT/JWT.service';
+import { JWTService } from '../auth/JWT/JWT.service';
+
+/*====================*/
+
+const models = MongooseModule.forFeature([
+  { name: User.name, schema: UserSchema },
+]);
 
 /*====================*/
 
 @Module({
   controllers: [UserController],
-  providers: [UserService, JSendSerializer, JWTService],
-  imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
-  ],
+  providers: [UserService],
+  imports: [models],
+  exports: [UserService, models],
 })
 export class UserModule {}
