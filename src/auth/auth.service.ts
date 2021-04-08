@@ -19,7 +19,7 @@ export class AuthService {
   public async createUser(data: RegisterDTO): Promise<UserDocument> {
     const user = await this.user.create(data);
 
-    user.password = undefined;
+    user.hideData();
 
     return user;
   }
@@ -35,7 +35,7 @@ export class AuthService {
       );
     }
 
-    user.password = undefined;
+    user.hideData();
 
     return user;
   }

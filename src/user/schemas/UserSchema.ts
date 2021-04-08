@@ -4,7 +4,10 @@ import * as bcrypt from 'bcrypt';
 
 /*====================*/
 
-export type UserDocument = User & Document;
+export type UserDocument = User &
+  Document & {
+    hideData: () => void;
+  };
 
 /*====================*/
 
@@ -44,6 +47,9 @@ export class User {
     },
   })
   public passwordConfirm: string;
+
+  @Prop({ default: false, select: false })
+  public isAdmin: boolean;
 }
 
 /*====================*/
@@ -58,3 +64,13 @@ UserSchema.pre<UserDocument>('save', async function (next) {
 
   next();
 });
+
+UserSchema.methods.hideData = async function (this: UserDocument) {
+  Object.keys(this.schema.paths).forEach((key) => {
+    let value = this.schema.paths[key];
+
+    if (value.options.select === false) {
+      value = undefined;
+    }
+  });
+};
