@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as cookieParser from 'cookie-parser';
-import { MongooseExceptionFilter } from './mongoose-exception.filter';
+import { MongooseExceptionFilter } from './filters/mongoose-exception.filter';
 import { authMiddleware } from './middlewares/auth.middleware';
 
 /*====================*/

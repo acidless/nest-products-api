@@ -15,9 +15,9 @@ export class UserService {
     @InjectModel(User.name) private user: Model<UserDocument>,
   ) {}
 
-  public async getAllUsers(page: number) {
+  public async getAllUsers(page: number, filter: any) {
     return this.user
-      .find()
+      .find(filter)
       .skip(Math.abs(this.USERS_PER_PAGE * (page - 1)))
       .limit(this.USERS_PER_PAGE);
   }
