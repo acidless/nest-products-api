@@ -36,6 +36,7 @@ export class AuthService {
     }
 
     user.hideData();
+    user.password = undefined;
 
     return user;
   }

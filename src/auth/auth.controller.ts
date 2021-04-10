@@ -29,22 +29,6 @@ export class AuthController {
     private jwtService: JWTService,
   ) {}
 
-  @Get('/me')
-  @HttpCode(HttpStatus.OK)
-  public async me(@Req() request) {
-    if (request.user?.id) {
-      const user = await this.userService.getUserById(request.user?.id);
-
-      return this.jsendSerializer.successResponse(user).get();
-    }
-
-    throw new UnauthorizedException(
-      this.jsendSerializer
-        .failResponse('You must be authorized to do this')
-        .get(),
-    );
-  }
-
   @Post('/register')
   @HttpCode(HttpStatus.CREATED)
   public async register(

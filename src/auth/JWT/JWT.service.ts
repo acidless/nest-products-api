@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
+import { UserDocument } from '../../user/schemas/UserSchema';
 
 /*====================*/
 
@@ -12,9 +13,9 @@ export class JWTService {
     return 'Bearer ' + token;
   }
 
-  public getTokenData(token: string) {
+  public getTokenData(token: string): UserDocument {
     const data = token ? jwt.decode(token.slice(7)) : undefined;
 
-    return data;
+    return data as UserDocument;
   }
 }

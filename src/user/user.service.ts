@@ -25,4 +25,8 @@ export class UserService {
   public async getUserById(id: string) {
     return this.user.findById(id);
   }
+
+  public async getMe(id: string) {
+    return this.user.findById(id).select('+isAdmin');
+  }
 }
