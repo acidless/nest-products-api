@@ -19,4 +19,10 @@ export class CategoriesService {
   public async create(data: CategoryCreateDTO) {
     return this.model.create(data);
   }
+
+  public async delete(id: string) {
+    const category = await this.model.findById(id);
+
+    return category.deleteOne();
+  }
 }

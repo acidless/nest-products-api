@@ -1,14 +1,10 @@
 import {
   Body,
   Controller,
-  Get,
   HttpCode,
   HttpStatus,
   Post,
-  Req,
   Res,
-  UnauthorizedException,
-  ValidationPipe,
 } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import JSendSerializer from 'r-jsend';
@@ -44,14 +40,14 @@ export class AuthController {
 
     this.setTokenCookie(response, token);
 
-    return user;
+    return this.jsendSerializer.successResponse(user).get();
   }
 
   @Post('/login')
   @HttpCode(HttpStatus.OK)
   public async logIn(
     @Res({ passthrough: true }) response: Response,
-    @Body(ValidationPipe) data: LoginDTO,
+    @Body() data: LoginDTO,
   ) {
     const user = await this.authService.logIn(data);
     const token = this.jwtService.generateToken(
@@ -62,7 +58,7 @@ export class AuthController {
 
     this.setTokenCookie(response, token);
 
-    return user;
+    return this.jsendSerializer.successResponse(user).get();
   }
 
   private setTokenCookie(response: Response, token: string) {

@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import * as bcrypt from 'bcrypt';
+import hideData from '../../mongoose/plugins/HideData';
+import softDeletes from '../../mongoose/plugins/SoftDeletes';
 
 /*====================*/
 
@@ -56,6 +58,9 @@ export class User {
 
 export const UserSchema = SchemaFactory.createForClass(User);
 
+UserSchema.plugin(hideData);
+UserSchema.plugin(softDeletes);
+
 UserSchema.pre<UserDocument>('save', async function (next) {
   if (this.isModified('password')) {
     this.password = await bcrypt.hash(this.password, 12);
@@ -64,13 +69,3 @@ UserSchema.pre<UserDocument>('save', async function (next) {
 
   next();
 });
-
-UserSchema.methods.hideData = async function (this: UserDocument) {
-  Object.keys(this.schema.paths).forEach((key) => {
-    let value = this.schema.paths[key];
-
-    if (value.options.select === false) {
-      value = undefined;
-    }
-  });
-};

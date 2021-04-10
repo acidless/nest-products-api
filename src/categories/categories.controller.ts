@@ -1,9 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
   UseGuards,
 } from '@nestjs/common';
@@ -36,5 +38,14 @@ export class CategoriesController {
     const category = await this.categoriesService.create(data);
 
     return this.jsendSerializer.successResponse(category).get();
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(AdminGuard)
+  public async delete(@Param('id') id: string) {
+    await this.categoriesService.delete(id);
+
+    return;
   }
 }
