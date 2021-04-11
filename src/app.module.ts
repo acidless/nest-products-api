@@ -9,6 +9,17 @@ import { CategoriesModule } from './categories/categories.module';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthMiddleware } from './middlewares/auth.middleware';
 import { ProductModule } from './product/product.module';
+import { Product, ProductSchema } from './product/schemas/ProductSchema';
+import { Category, CategorySchema } from './categories/schemas/CategorySchema';
+import { User, UserSchema } from './user/schemas/UserSchema';
+
+/*====================*/
+
+const models = MongooseModule.forFeature([
+  { name: Product.name, schema: ProductSchema },
+  { name: Category.name, schema: CategorySchema },
+  { name: User.name, schema: UserSchema },
+]);
 
 /*====================*/
 
@@ -22,9 +33,10 @@ import { ProductModule } from './product/product.module';
       `mongodb+srv://${database.login}:${database.password}@cluster0.7zktq.mongodb.net/${database.name}?retryWrites=true&w=majority`,
     ),
     ProductModule,
+    models,
   ],
   providers: [AppService, JSendSerializer, AuthGuard],
-  exports: [JSendSerializer, AuthGuard],
+  exports: [models, JSendSerializer, AuthGuard, ProductModule],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
