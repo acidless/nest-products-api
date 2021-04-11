@@ -37,7 +37,7 @@ export class UserController {
   @Get()
   @HttpCode(HttpStatus.OK)
   public async getAll(@Filter() filter, @Query('p') page: number) {
-    const users = await this.userService.getAllUsers(page, filter);
+    const users = await this.userService.getAllUsers(page || 1, filter);
 
     return this.jsendSerializer.successResponse(users).get();
   }

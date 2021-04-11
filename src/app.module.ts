@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { CategoriesModule } from './categories/categories.module';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthMiddleware } from './middlewares/auth.middleware';
+import { ProductModule } from './product/product.module';
 
 /*====================*/
 
@@ -20,6 +21,7 @@ import { AuthMiddleware } from './middlewares/auth.middleware';
     MongooseModule.forRoot(
       `mongodb+srv://${database.login}:${database.password}@cluster0.7zktq.mongodb.net/${database.name}?retryWrites=true&w=majority`,
     ),
+    ProductModule,
   ],
   providers: [AppService, JSendSerializer, AuthGuard],
   exports: [JSendSerializer, AuthGuard],

@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  Patch,
   Post,
   UseGuards,
 } from '@nestjs/common';
@@ -36,6 +37,18 @@ export class CategoriesController {
   @UseGuards(AdminGuard)
   public async create(@Body() data: CategoryCreateDTO) {
     const category = await this.categoriesService.create(data);
+
+    return this.jsendSerializer.successResponse(category).get();
+  }
+
+  @Patch(':id')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(AdminGuard)
+  public async update(
+    @Param('id') id: string,
+    @Body() data: CategoryCreateDTO,
+  ) {
+    const category = await this.categoriesService.update(id, data);
 
     return this.jsendSerializer.successResponse(category).get();
   }

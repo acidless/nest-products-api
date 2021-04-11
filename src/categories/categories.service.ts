@@ -20,6 +20,10 @@ export class CategoriesService {
     return this.model.create(data);
   }
 
+  public async update(id: string, data: CategoryCreateDTO) {
+    return this.model.findByIdAndUpdate(id, data);
+  }
+
   public async delete(id: string) {
     const category = await this.model.findById(id);
 
