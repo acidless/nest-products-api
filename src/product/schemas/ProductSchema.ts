@@ -5,6 +5,7 @@ import {
   CategoryDocument,
 } from '../../categories/schemas/CategorySchema';
 import { Document } from 'mongoose';
+import { User } from '../../user/schemas/UserSchema';
 
 /*====================*/
 
@@ -30,6 +31,9 @@ export class Product {
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: Category.name }],
   })
   public categories: Array<CategoryDocument>;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+  public seller: User | string;
 }
 
 /*====================*/

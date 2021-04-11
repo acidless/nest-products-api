@@ -21,7 +21,7 @@ export class CategoriesService {
   }
 
   public async update(id: string, data: CategoryCreateDTO) {
-    return this.model.findByIdAndUpdate(id, data);
+    return this.model.findByIdAndUpdate(id, data, { new: true });
   }
 
   public async delete(id: string) {
