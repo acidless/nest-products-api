@@ -53,7 +53,7 @@ export class MeProductsController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard, ProductGuard)
   public async update(
-    @Param(':productId') id: string,
+    @Param('productId') id: string,
     @Data(fill) data: CreateProductDTO,
   ) {
     const product = await this.productService.update(id, data);
@@ -64,7 +64,7 @@ export class MeProductsController {
   @Delete(':productId')
   @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(AuthGuard, ProductGuard)
-  public async delete(@Param(':productId') id: string) {
+  public async delete(@Param('productId') id: string) {
     return await this.productService.delete(id);
   }
 }

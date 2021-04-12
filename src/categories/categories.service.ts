@@ -13,7 +13,16 @@ export class CategoriesService {
   ) {}
 
   public async getAll() {
-    return this.model.find();
+    return this.model.find().select('-products');
+  }
+
+  public async getOne(id: string) {
+    return this.model.findById(id).populate({
+      path: 'products',
+      options: {
+        limit: 20,
+      },
+    });
   }
 
   public async create(data: CategoryCreateDTO) {

@@ -34,6 +34,14 @@ export class CategoriesController {
     return this.jsendSerializer.successResponse(categories).get();
   }
 
+  @Get(':id')
+  @HttpCode(HttpStatus.OK)
+  public async getOne(@Param('id') id) {
+    const category = await this.categoriesService.getOne(id);
+
+    return this.jsendSerializer.successResponse(category).get();
+  }
+
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @UseGuards(AdminGuard)
