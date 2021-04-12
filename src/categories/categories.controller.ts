@@ -27,7 +27,6 @@ export class CategoriesController {
   ) {}
 
   @Get()
-  @HttpCode(HttpStatus.OK)
   public async getAll() {
     const categories = await this.categoriesService.getAll();
 
@@ -35,7 +34,6 @@ export class CategoriesController {
   }
 
   @Get(':id')
-  @HttpCode(HttpStatus.OK)
   public async getOne(@Param('id') id) {
     const category = await this.categoriesService.getOne(id);
 
@@ -52,7 +50,6 @@ export class CategoriesController {
   }
 
   @Patch(':id')
-  @HttpCode(HttpStatus.OK)
   @UseGuards(AdminGuard)
   public async update(
     @Param('id') id: string,

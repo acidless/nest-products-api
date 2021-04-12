@@ -20,7 +20,6 @@ export class ProductController {
   ) {}
 
   @Get()
-  @HttpCode(HttpStatus.OK)
   public async getAll(@Query('p') page, @Filter() filter) {
     const products = await this.productService.getAll(page || 1, filter);
 
@@ -28,7 +27,6 @@ export class ProductController {
   }
 
   @Get(':id')
-  @HttpCode(HttpStatus.OK)
   public async getOne(@Param('id') id: string) {
     const product = await this.productService.getOne(id);
 

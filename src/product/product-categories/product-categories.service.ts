@@ -16,8 +16,15 @@ export class ProductCategoriesService {
     @InjectModel(Product.name) private product: Model<ProductDocument>,
   ) {}
 
-  public async addCategory(productId: string, categoryId: string) {
-    const product = await this.product.findById(productId);
+  public async addCategory(
+    productId: string,
+    categoryId: string,
+    sellerId: string,
+  ) {
+    const product = await this.product.findOne({
+      _id: productId,
+      seller: sellerId,
+    });
     const category = await this.category.findById(categoryId);
 
     if (

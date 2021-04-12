@@ -12,6 +12,11 @@ import { ProductModule } from './product/product.module';
 import { Product, ProductSchema } from './product/schemas/ProductSchema';
 import { Category, CategorySchema } from './categories/schemas/CategorySchema';
 import { User, UserSchema } from './user/schemas/UserSchema';
+import { TransactionsModule } from './transactions/transactions.module';
+import {
+  Transaction,
+  TransactionSchema,
+} from './transactions/schemas/TransactionSchema';
 
 /*====================*/
 
@@ -19,6 +24,7 @@ const models = MongooseModule.forFeature([
   { name: Product.name, schema: ProductSchema },
   { name: Category.name, schema: CategorySchema },
   { name: User.name, schema: UserSchema },
+  { name: Transaction.name, schema: TransactionSchema },
 ]);
 
 /*====================*/
@@ -34,6 +40,7 @@ const models = MongooseModule.forFeature([
     ),
     ProductModule,
     models,
+    TransactionsModule,
   ],
   providers: [AppService, JSendSerializer, AuthGuard],
   exports: [models, JSendSerializer, AuthGuard, ProductModule],

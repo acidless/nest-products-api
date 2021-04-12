@@ -1,11 +1,4 @@
-import {
-  Controller,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Param,
-  Query,
-} from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import JSendSerializer from 'r-jsend';
 import { Filter } from '../decorators/filter.decorator';
@@ -20,7 +13,6 @@ export class UserController {
   ) {}
 
   @Get()
-  @HttpCode(HttpStatus.OK)
   public async getAll(@Filter() filter, @Query('p') page: number) {
     const users = await this.userService.getAllUsers(page || 1, filter);
 
@@ -28,7 +20,6 @@ export class UserController {
   }
 
   @Get(':id')
-  @HttpCode(HttpStatus.OK)
   public async getOne(@Param('id') id: string) {
     const user = await this.userService.getUserById(id);
 

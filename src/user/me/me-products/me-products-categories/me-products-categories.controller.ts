@@ -1,18 +1,12 @@
-import {
-  Controller,
-  HttpCode,
-  HttpStatus,
-  Param,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
-import { ProductGuard } from '../../../../guards/product.guard';
+import { Controller, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { ProductCategoriesService } from '../../../../product/product-categories/product-categories.service';
 import JSendSerializer from 'r-jsend';
+import { AuthGuard } from '../../../../guards/auth.guard';
 
 /*====================*/
 
 @Controller()
+@UseGuards(AuthGuard)
 export class MeProductsCategoriesController {
   public constructor(
     private productCategoriesService: ProductCategoriesService,
@@ -20,12 +14,11 @@ export class MeProductsCategoriesController {
   ) {}
 
   @Post('/me/products/:productId/categories/:categoryId')
-  @HttpCode(HttpStatus.OK)
-  @UseGuards(ProductGuard)
-  async addCategory(@Param() params) {
+  async addCategory(@Req() request, @Param() params) {
     const product = await this.productCategoriesService.addCategory(
       params.productId,
       params.categoryId,
+      request.user._id,
     );
 
     return this.jsendSerializer.successResponse(product).get();

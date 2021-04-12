@@ -51,11 +51,13 @@ export class ProductService {
     return product;
   }
 
-  public async update(id: string, data: CreateProductDTO) {
-    return this.product.findByIdAndUpdate(id, data, { new: true });
+  public async update(id: string, data: CreateProductDTO, sellerId?: string) {
+    return this.product.findOneAndUpdate({ _id: id, seller: sellerId }, data, {
+      new: true,
+    });
   }
 
-  public async delete(id: string) {
-    return this.product.findByIdAndDelete(id);
+  public async delete(id: string, sellerId?: string) {
+    return this.product.findOneAndUpdate({ _id: id, seller: sellerId });
   }
 }
