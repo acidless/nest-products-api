@@ -3,6 +3,8 @@ import { Document } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import hideData from '../../mongoose/plugins/HideData';
 import softDeletes from '../../mongoose/plugins/SoftDeletes';
+import * as mongoose from 'mongoose';
+import { ProductDocument } from '../../product/schemas/ProductSchema';
 
 /*====================*/
 
@@ -52,6 +54,9 @@ export class User {
 
   @Prop({ default: false, select: false })
   public isAdmin: boolean;
+
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }] })
+  public products: Array<ProductDocument>;
 }
 
 /*====================*/

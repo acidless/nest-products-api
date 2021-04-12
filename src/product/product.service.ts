@@ -4,6 +4,7 @@ import { Product, ProductDocument } from './schemas/ProductSchema';
 import { Model } from 'mongoose';
 import { CreateProductDTO } from './DTOS/CreateProductDTO';
 import { CategoryDocument } from '../categories/schemas/CategorySchema';
+import { User, UserDocument } from '../user/schemas/UserSchema';
 
 /*====================*/
 
@@ -12,6 +13,7 @@ export class ProductService {
   private PRODUCTS_PER_PAGE = 30;
 
   public constructor(
+    @InjectModel(User.name) private user: Model<UserDocument>,
     @InjectModel(Product.name) private product: Model<ProductDocument>,
   ) {}
 
@@ -37,9 +39,14 @@ export class ProductService {
   }
 
   public async create(sellerId: string, data: CreateProductDTO) {
+    const user = await this.user.findById(sellerId);
     const product = await this.product.create(data);
+
     product.seller = sellerId;
+    user.products.push(product._id);
+
     await product.save();
+    await user.save({ validateModifiedOnly: true });
 
     return product;
   }

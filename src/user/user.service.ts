@@ -19,11 +19,12 @@ export class UserService {
     return this.user
       .find(filter)
       .skip(Math.abs(this.USERS_PER_PAGE * (page - 1)))
-      .limit(this.USERS_PER_PAGE);
+      .limit(this.USERS_PER_PAGE)
+      .select('-products');
   }
 
   public async getUserById(id: string) {
-    return this.user.findById(id);
+    return this.user.findById(id).populate('products');
   }
 
   public async getMe(id: string) {
